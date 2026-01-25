@@ -1,14 +1,33 @@
 import javax.xml.transform.Source;
+import java.util.Scanner;
 
 public class Admin extends User{
 
     Admin(String name)
     {
         super(name);
+        this.operations = new IOOperation[] {
+                new ViewBooks(),
+                new AddBook(),
+                new DeleteBook(),
+                new Search(),
+                new DeleteAllData(),
+                new ViewOrders(),
+                new Exit()
+        };
     }
 
     Admin(String name, String email, String phoneNumber){
         super(name, email, phoneNumber);
+        this.operations = new IOOperation[] {
+                new ViewBooks(),
+                new AddBook(),
+                new DeleteBook(),
+                new Search(),
+                new DeleteAllData(),
+                new ViewOrders(),
+                new Exit()
+        };
     }
 
     @Override
@@ -20,5 +39,9 @@ public class Admin extends User{
         System.out.println("5. Delete all data");
         System.out.println("6. View Orders");
         System.out.println("7. Exit");
+
+        Scanner scanner = new Scanner(System.in);
+        int n = scanner.nextInt();
+        this.operations[n-1].oper();
     }
 }
