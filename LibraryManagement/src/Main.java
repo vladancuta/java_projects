@@ -35,7 +35,7 @@ public class Main {
         int i = database.login(phonenumber, email);
         if(i != -1){
             User user = database.getUser(i);
-            user.menu();
+            user.menu(database, user);
         } else {
             System.out.println("user doesn't exist");
         }
@@ -58,6 +58,6 @@ public class Main {
             user = new NormalUser(name, email, phoneNumber);
         }
         database.addUser(user);
-        user.menu();
+        user.menu(database, user);
     }
 }

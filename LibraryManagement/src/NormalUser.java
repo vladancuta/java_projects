@@ -22,7 +22,7 @@ public class NormalUser extends User{
     }
 
     @Override
-    public void menu(){
+    public void menu(Database database, User user){
         System.out.println("1. View Books");
         System.out.println("2. Search");
         System.out.println("3. Place Order");
@@ -33,6 +33,8 @@ public class NormalUser extends User{
 
         Scanner scanner = new Scanner(System.in);
         int n = scanner.nextInt();
-        this.operations[n-1].oper();
+        this.operations[n-1].oper(database, user);
+
+        scanner.close();
     }
 }

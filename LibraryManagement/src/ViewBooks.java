@@ -1,7 +1,7 @@
 public class ViewBooks implements IOOperation{
 
     @Override
-    public void oper() {
-        System.out.println("View Books method");
+    public void oper(Database database, User user) {
+
     }
 }
