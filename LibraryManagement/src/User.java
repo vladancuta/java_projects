@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public abstract class User {
 
     protected String name;
@@ -16,6 +18,9 @@ public abstract class User {
         this.email = email;
         this.phoneNumber = phoneNumber;
     }
+
+    @Override
+    abstract public String toString();
 
     public String getName(){
         return name;

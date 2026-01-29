@@ -23,17 +23,17 @@ public class Book {
         this.brwcopies = brwcopies;
     }
 
-    @Override
-    public String toString() {
-        return "name='" + name + '\'' +
-                ", author='" + author + '\'' +
-                ", publisher='" + publisher + '\'' +
-                ", address='" + address + '\'' +
-                ", status='" + status + '\'' +
-                ", qty=" + qty +
-                ", price=" + price +
-                ", brwcopies=" + brwcopies ;
-    }
+//    @Override
+//    public String toString() {
+//        return "name='" + name + '\'' +
+//                ", author='" + author + '\'' +
+//                ", publisher='" + publisher + '\'' +
+//                ", address='" + address + '\'' +
+//                ", status='" + status + '\'' +
+//                ", qty=" + qty +
+//                ", price=" + price +
+//                ", brwcopies=" + brwcopies ;
+//    }
 
     public String getName() {
         return name;
@@ -98,4 +98,17 @@ public class Book {
     public void setBrwcopies(int brwcopies) {
         this.brwcopies = brwcopies;
     }
+
+    @Override
+    public String toString(){
+        return  name + "<N/>" +
+                author + "<N/>" +
+                publisher + "<N/>" +
+                address + "<N/>" +
+                String.valueOf(qty) + "<N/>" +
+                String.valueOf(price) + "<N/>" +
+                String.valueOf(brwcopies);
+    }
+
+
 }
