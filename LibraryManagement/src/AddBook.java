@@ -10,7 +10,7 @@ public class AddBook implements IOOperation{
         String name = scanner.next();
         if(database.getBook(name) != -1){
             System.out.println("Book already exists!");
-            return;
+            user.menu(database, user);
         }
         else book.setName(name);
         System.out.println("Enter book author: ");

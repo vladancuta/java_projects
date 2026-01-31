@@ -13,7 +13,6 @@ public class DeleteBook implements IOOperation{
             database.deleteBook(i);
             System.out.println("Book deleted!");
         }
-        scanner.close();
         user.menu(database, user);
 
     }
