@@ -11,7 +11,10 @@ public class Search implements  IOOperation{
         int i = database.getBook(name);
         if (i == -1) System.out.println("Book doesn't exist!");
         else {
-            System.out.println(database.getBook(i).toString());
+            String[] text = database.getBook(i).toString().split("<N/>");
+            for (String el : text) {
+                System.out.println(el);
+            }
         }
         user.menu(database, user);
 
