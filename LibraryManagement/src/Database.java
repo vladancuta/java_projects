@@ -1,5 +1,7 @@
 import javax.xml.crypto.Data;
 import java.io.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class Database {
@@ -9,10 +11,13 @@ public class Database {
     ArrayList<Book> books = new ArrayList<Book>();
     ArrayList<String> booknames = new ArrayList<String >();
     ArrayList<Order> orders = new ArrayList<Order>();
+    ArrayList<Borrowing> borrowings = new ArrayList<Borrowing>();
 
     private File userfile = new File("/Users/vlad-adrianancuta/Desktop/java_projects/LibraryManagement/src/Users");
     private File booksfile = new File("/Users/vlad-adrianancuta/Desktop/java_projects/LibraryManagement/src/Books");
     private File ordersfile = new File("/Users/vlad-adrianancuta/Desktop/java_projects/LibraryManagement/src/Orders");
+    private File borrowingsfile = new File("/Users/vlad-adrianancuta/Desktop/java_projects/LibraryManagement/src/Borrowings");
+
 
 
     public Database() {
@@ -32,9 +37,15 @@ public class Database {
                 ordersfile.createNewFile();
             } catch (Exception e) {}
         }
+        if (!borrowingsfile.exists()){
+            try {
+                borrowingsfile.createNewFile();
+            } catch (Exception e) {}
+        }
         getUsers();
         getBooks();
         getOrders();
+        getBorrowings();
     }
 
 
@@ -218,14 +229,19 @@ public class Database {
             } catch (Exception e) {}
         }
 
-        if (!booksfile.exists()){
+        if (booksfile.exists()){
             try {
                 booksfile.delete();
             } catch (Exception e) {}
         }
-        if (!ordersfile.exists()){
+        if (ordersfile.exists()){
             try {
                 ordersfile.delete();
+            } catch (Exception e) {}
+        }
+        if (borrowingsfile.exists()){
+            try {
+                borrowingsfile.delete();
             } catch (Exception e) {}
         }
     }
@@ -280,6 +296,74 @@ public class Database {
 
     public ArrayList<Order> getAllOrders(){
         return orders;
+    }
+
+    private void saveBorrowings(){
+        String text1 = "";
+        for (Borrowing borrowing : borrowings){
+            text1 = text1 + borrowing.toString() + "<NewBorrowing/>\n";
+        }
+
+        try {
+            PrintWriter pw = new PrintWriter(borrowingsfile);
+            pw.print(text1);
+            pw.close();
+            System.err.println("data saved");
+
+        } catch (Exception e) {
+            System.err.println(e.toString());
+        }
+    }
+
+    private void getBorrowings(){
+        String text1 = "";
+        try{
+            BufferedReader br1 = new BufferedReader(new FileReader(borrowingsfile));
+            String s1;
+            while((s1 = br1.readLine()) != null){
+                text1 = text1 + s1;
+            }
+            br1.close();
+        } catch (Exception e) {
+            System.err.println(e.toString());
+        }
+        if (!text1.isEmpty()) {
+            String[] a1 = text1.split("<NewBorrowing/>");
+            for(String s : a1) {
+                Borrowing borrowing = parseBorrowing(s);
+                borrowings.add(borrowing);
+            }
+        }
+    }
+
+    private Borrowing parseBorrowing(String s){
+        String[] a =  s.split("<N/>");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate start = LocalDate.parse(a[0], formatter);
+        LocalDate finish = LocalDate.parse(a[1], formatter);
+        Book book = getBook(getBook(a[3]));
+        User user = getUserByUsername(a[4]);
+        Borrowing brw = new Borrowing(start, finish, book, user);
+        return brw;
+    }
+
+    public void BorrowBook(Borrowing brw, Book book, int bookindex){
+        borrowings.add(brw);
+        books.set(bookindex, book);
+        saveBorrowings();
+        saveBooks();
+    }
+
+    public ArrayList<Borrowing> getBrws(){
+        return borrowings;
+    }
+
+    public void returnBook(Borrowing b, Book book, int bookindex){
+        borrowings.remove(b);
+        books.set(bookindex, book);
+        saveBorrowings();
+        saveBooks();
+
     }
 }
 
